@@ -341,26 +341,7 @@ impl IndependentFormattingContext {
                     };
                 Some((block_size.into(), depends_on_inline_stretch_size))
             },
-            IndependentFormattingContextContents::Flow(_) => {
-                let ratio = preferred_aspect_ratio?;
-                let block_size = ratio.compute_dependent_size(Direction::Block, inline_stretch_size);
-                Some((block_size.into(), true))
-            },
-            IndependentFormattingContextContents::Flex(_) => {
-                let ratio = preferred_aspect_ratio?;
-                let block_size = ratio.compute_dependent_size(Direction::Block, inline_stretch_size);
-                Some((block_size.into(), true))
-            },
-            IndependentFormattingContextContents::Grid(_) => {
-                let ratio = preferred_aspect_ratio?;
-                let block_size = ratio.compute_dependent_size(Direction::Block, inline_stretch_size);
-                Some((block_size.into(), true))
-            },
-            IndependentFormattingContextContents::Table(_) => {
-                let ratio = preferred_aspect_ratio?;
-                let block_size = ratio.compute_dependent_size(Direction::Block, inline_stretch_size);
-                Some((block_size.into(), true))
-            },
+            _ => None,
         }
     }
 
@@ -490,6 +471,7 @@ impl IndependentFormattingContext {
                 containing_block_for_children,
                 lazy_block_size,
                 Some(&self.base),
+                preferred_aspect_ratio,
             ),
             IndependentFormattingContextContents::Flex(fc) => fc.layout(
                 layout_context,
